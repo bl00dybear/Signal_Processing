@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-
+import random
 
 # 1
 
@@ -62,10 +62,57 @@ def _2_c():
     plt.ylabel('Amplitudine')
     plt.savefig('../plots/2_c.pdf')
     plt.show()
+    
+def _2_d():
+    t = np.linspace(0,1,300)
+    A = np.sign(np.sin(2*np.pi*t))
+    
+    plt.plot(t,A)
+    plt.xlabel('Timp (s)')
+    plt.ylabel('Amplitudine')
+    plt.savefig('../plots/2_d.pdf')
+    plt.show()
+    
+    
+def _2_e():
+    mat = np.random.rand(128,128)
+    # print(mat)    
+    plt.imshow(mat)
+    plt.savefig('../plots/2_e.pdf')
+    plt.show()
+    
+
+def _2_f():
+    mat = np.zeros((128,128))
+    
+    for i in range (0,128):
+        for j in range (0,128):
+            prob = random.random()
+            if prob < 0.2:
+                mat[i][j] = 1
+                
+    plt.imshow(mat)
+    plt.savefig('../plots/2_f.pdf')
+    plt.show()
 
 
 def main():
-    _2_c()
+    _2_d()
+
+"""
+3.a.
+2000 de Hz --> 2000 de esantioane pe 1s =>
+esantioanele sunt din 1/2000 in 1/2000s,
+1/2000 = 0.0005s (tipul dintre 2 esantioane)    
+    
+3.b.
+4 biti = 0.5 bytes
+2000 de esantioane/s => bytes pe secunda = 2000*0.5=1000 bytes
+o ora = 3600s => bytes pe ora = 1000 bytes * 3600s = 3600000bytes (aproximativ 3.6 MB)
+"""
+
+
+
 
 if __name__ == "__main__":
     main()
