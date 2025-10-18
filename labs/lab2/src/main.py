@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import sounddevice as sd
-
+from scipy.io import wavfile
 
 def _1():
     t = np.linspace(0,1,200)
@@ -100,10 +100,54 @@ def _3():
     s_2d = np.sign(np.sin(2*np.pi*t))
     sd.play(s_2d,fs)
     sd.wait()
+    
+    wavfile.write("../plots/3.wav",fs,s_2c)
+    
+    _,s_2c_loaded = wavfile.read("../plots/3.wav")
+    
+    sd.play(s_2c_loaded,fs)
+    sd.wait()
 
+
+def _4():
+    t = np.linspace(0,1,400)
+    sin_signal = np.sin(2*np.pi*t)
+    sawtooth_signal = t - np.floor(t)
+    sum_signal = sin_signal+sawtooth_signal
+    
+    fig , axis = plt.subplots(3,1)
+
+    
+    signals = [sin_signal,sawtooth_signal,sum_signal]
+
+    for ax, y in zip(axis, signals):
+        ax.plot(t, y)
+        ax.set_ylabel('Amplitudine')
+        ax.grid(True)
+
+    axis[-1].set_xlabel('Timp [s]')
+    plt.savefig("../plots/4.pdf")
+    plt.show()
+    plt.close(fig)
+
+
+def _5():
+    fs=14100
+    
+    t = np.linspace(0,10,16000)
+    sig1 = np.sin(2*np.pi*400*t)
+    sig2 = np.sin(2*np.pi*500*t)
+    sum_sig=np.concatenate([sig1,sig2])
+    
+    sd.play(sum_sig,fs)
+    sd.wait()
+    
+    # observatie: cu cat creste mai mult frecventa cu atat
+    # sunetul e mai inalt, mai intepator la auz
+    
 
 def main():
-    _3()
+    _5()
 
 
 
