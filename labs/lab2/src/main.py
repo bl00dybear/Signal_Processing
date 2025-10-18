@@ -1,0 +1,112 @@
+import matplotlib.pyplot as plt
+import numpy as np
+import sounddevice as sd
+
+
+def _1():
+    t = np.linspace(0,1,200)
+    A_sin = np.sin(2*np.pi*2*t)
+    A_cos = np.cos(2*np.pi*2*t-np.pi/2)
+    
+    fig, (ax1, ax2) = plt.subplots(2, 1)
+
+    ax1.plot(t, A_sin)
+    ax1.set_title('Semnal sinus')
+    ax1.set_ylabel('Amplitudine')
+    ax1.grid(True)
+    ax1.legend(loc='upper right')
+
+    ax2.plot(t, A_cos, color='orange')
+    ax2.set_title('Semnal cosinus')
+    ax2.set_xlabel('Timp [s]')
+    ax2.set_ylabel('Amplitudine')
+    ax2.grid(True)
+    ax2.legend(loc='upper right')
+
+    fig.tight_layout()
+    plt.savefig("../plots/1.pdf")
+    plt.show()
+
+
+def _2():
+    t = np.linspace(0,1,200)
+    A_1 = np.sin(2*np.pi*2*t)
+    A_2 = np.sin(2*np.pi*2*t + np.pi/2)
+    A_3 = np.sin(2*np.pi*2*t + np.pi)
+    A_4 = np.sin(2*np.pi*2*t + 3*np.pi/2)
+    
+    plt.plot(t,A_1)
+    plt.plot(t,A_2)
+    plt.plot(t,A_3)
+    plt.plot(t,A_4)
+    plt.xlabel("Timp")
+    plt.ylabel("Amplitudine")
+    plt.grid(True)
+    plt.savefig("../plots/2.1.pdf")
+    plt.show()
+    plt.close()
+        
+    SNR = 0.1
+    z = np.random.normal(loc=0.0,scale=1.0,size=t.shape)
+    
+    sigma1 = np.sqrt(np.mean(A_1 ** 2) / (SNR*np.mean(z**2)))
+    sigma2 = np.sqrt(np.mean(A_1 ** 2) / (1*np.mean(z**2)))
+    sigma3 = np.sqrt(np.mean(A_1 ** 2) / (10*np.mean(z**2)))
+    sigma4 = np.sqrt(np.mean(A_1 ** 2) / (100*np.mean(z**2)))
+    
+    
+    
+    A_zgomot1 = A_1 + sigma1*z   
+    A_zgomot2 = A_1 + sigma2*z  
+    A_zgomot3 = A_1 + sigma3*z  
+    A_zgomot4 = A_1 + sigma4*z  
+
+    fig2 , axis2 = plt.subplots(4,1)
+
+    
+    signals = [A_zgomot1,A_zgomot2,A_zgomot3,A_zgomot4]
+
+    for ax, y in zip(axis2, signals):
+        ax.plot(t, y)
+        ax.set_ylabel('Amplitudine')
+        ax.grid(True)
+
+    axis2[-1].set_xlabel('Timp [s]')
+    plt.savefig("../plots/2.2.pdf")
+    plt.show()
+    plt.close(fig2)
+
+
+def _3():
+    fs=14100
+    
+    t=np.linspace(0,10,16000)
+    s_2a=np.sin(2*np.pi*400*t)
+    sd.play(s_2a,fs)
+    sd.wait()
+    
+    
+    t=np.linspace(0,10,16000)
+    s_2b=np.sin(2*np.pi*3*t)
+    sd.play(s_2b,fs)
+    sd.wait()
+    
+    t = np.linspace(0,10,16000)
+    s_2c = t*240-np.floor(t*240)
+    sd.play(s_2c,fs)
+    sd.wait()
+    
+    t = np.linspace(0,10,16000)
+    s_2d = np.sign(np.sin(2*np.pi*t))
+    sd.play(s_2d,fs)
+    sd.wait()
+
+
+def main():
+    _3()
+
+
+
+
+if __name__ == "__main__":
+    main()
