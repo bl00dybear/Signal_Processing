@@ -145,9 +145,49 @@ def _5():
     # observatie: cu cat creste mai mult frecventa cu atat
     # sunetul e mai inalt, mai intepator la auz
     
+    
+def _6():
+    fs = 44100
+    
+    f1=fs/2
+    f2=fs/4
+    f3=0
+    
+    t1 = np.linspace(0,0.01,4410)
+    t2 = np.linspace(0,0.01,2205)
+    t3 = np.linspace(0,1,2)
+    
+    sig1 = np.sin(2*np.pi*f1*t1)
+    sig2 = np.sin(2*np.pi*f2*t2)
+    sig3 = np.sin(2*np.pi*f3*t3)
+            
+    fig,axis=plt.subplots(3,1)
+    
+    signals = [sig1,sig2,sig3]
+    ts = [t1,t2,t3]
+    
+    for ax,t,A in zip(axis,ts,signals):
+        ax.plot(t,A)
+        ax.set_ylabel('Amplitudine')
+        ax.grid(True)
+        
+    axis[-1].set_xlabel('Timp [s]')
+    plt.savefig("../plots/6.pdf")
+    plt.show()
+    plt.close(fig)
+    
+    # obersvatie: stim ca frecventa reprezinta cate perioade ale semnalului avem intr o secunda
+    # (o secunda pt ca asa am scris formula, cf. cursului)
+    # deci practic o frecventa mai mare inseamna un semnal mai des si mai ascutit.
+    # frecventa 0 inseamna ca e semnal nul, adica sunt 0 perioade ale semnalului in 1s
+    
+    
+def _7():
+    pass
+    
 
 def main():
-    _5()
+    _6()
 
 
 
