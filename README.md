@@ -4,4 +4,4 @@
 
 ### Why are mathematical theorems always named after the second person who discovered them?
 
-### Because the first one was Euler.
+### Because the first one was always Euler.
