@@ -183,11 +183,51 @@ def _6():
     
     
 def _7():
-    pass
+    t = np.linspace(0,1,1000)
+    sig1 = np.sin(2*np.pi*16*t)
+    sig2 = np.sin(2*np.pi*4*t)
+
+    tt=np.linspace(0,1,250)
     
+    decimated_s1 = sig1[3::4]
+    decimated_s2 = sig2[3::4]
+    
+    double_decimated_s1 = decimated_s1[1::4]
+    double_decimated_s2 = decimated_s2[1::4] 
+    ttt = np.linspace(0,1,len(double_decimated_s1))
+    
+    sigs=[decimated_s1,decimated_s2]
+    fig,axis = plt.subplots(2,1)
+    
+    for ax,A in zip(axis,sigs):
+        ax.plot(tt,A)
+        ax.set_ylabel('Amplitudine')
+        ax.grid(True)
+        
+    axis[-1].set_xlabel('Timp [s]')
+    plt.savefig("../plots/7.1.pdf")
+    plt.show()
+    plt.close(fig)
+    
+    sigs=[double_decimated_s1,double_decimated_s2]
+    fig,axis = plt.subplots(2,1)
+    
+    for ax,A in zip(axis,sigs):
+        ax.plot(ttt,A)
+        ax.set_ylabel('Amplitudine')
+        ax.grid(True)
+        
+    axis[-1].set_xlabel('Timp [s]')
+    plt.savefig("../plots/7.2.pdf")
+    plt.show()
+    plt.close(fig)
+    
+    # (a): la nivel de observatii pot mentiona doar ca primul semnal este mai patratos
+    # (b): dupa a doua decimare a celor 2 semnale, primul nu prea mai arata a sinusoida, pe cand al doilea inca 
+    # are o oarecare forma de sinusoida
 
 def main():
-    _6()
+    _7()
 
 
 
