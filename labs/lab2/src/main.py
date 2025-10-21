@@ -143,7 +143,7 @@ def _5():
     sd.wait()
     
     # observatie: cu cat creste mai mult frecventa cu atat
-    # sunetul e mai inalt, mai intepator la auz
+    #             sunetul e mai inalt, mai intepator la auz
     
     
 def _6():
@@ -177,9 +177,9 @@ def _6():
     plt.close(fig)
     
     # obersvatie: stim ca frecventa reprezinta cate perioade ale semnalului avem intr o secunda
-    # (o secunda pt ca asa am scris formula, cf. cursului)
-    # deci practic o frecventa mai mare inseamna un semnal mai des si mai ascutit.
-    # frecventa 0 inseamna ca e semnal nul, adica sunt 0 perioade ale semnalului in 1s
+    #             (o secunda pt ca asa am scris formula, cf. cursului)
+    #             deci practic o frecventa mai mare inseamna un semnal mai des si mai ascutit.
+    #             frecventa 0 inseamna ca e semnal nul, adica sunt 0 perioade ale semnalului in 1s
     
     
 def _7():
@@ -224,10 +224,39 @@ def _7():
     
     # (a): la nivel de observatii pot mentiona doar ca primul semnal este mai patratos
     # (b): dupa a doua decimare a celor 2 semnale, primul nu prea mai arata a sinusoida, pe cand al doilea inca 
-    # are o oarecare forma de sinusoida
+    #      are o oarecare forma de sinusoida
+
+
+def _8():
+    x=np.linspace(-np.pi/2,np.pi/2,100)
+    y = np.sin(x)
+
+    plt.plot(x,y)
+    plt.plot(x,x)
+    plt.savefig("../plots/8.1.pdf")
+    plt.close()
+
+    # observatie aproximare sin(x)=x: aproximarea pare sa fie buna, dar pe un intervat mult mai restrans
+    #                                 vizual pare ca putem restrange intervalul la (-0.5,0.5)
+
+    pade = (x-(np.dot(7,x**3)/60))/(1+(x**2/20))
+    plt.plot(x,pade)
+    plt.plot(x,y)
+    plt.savefig("../plots/8.2.pdf")
+
+    # observatie: pe plot trebuie sa dai zoom pe capete pentru a observa faptul ca nu a fost o eroare de plot
+    #             (pentru a vedea ca sunt 2 linii pe grafic), deci aproximarea Pade pare mult mai accurate decat 
+    #             aproximarea precedenta
+
+    plt.yscale('log')
+    plt.savefig("../plots/8.3.pdf")
+    plt.close()
+
+
+
 
 def main():
-    _7()
+    _8()
 
 
 
