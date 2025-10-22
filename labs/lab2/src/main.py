@@ -239,6 +239,11 @@ def _8():
     # observatie aproximare sin(x)=x: aproximarea pare sa fie buna, dar pe un intervat mult mai restrans
     #                                 vizual pare ca putem restrange intervalul la (-0.5,0.5)
 
+    err = np.abs(y - x)
+    plt.plot(x,err)
+    plt.savefig("../plots/8.err.pdf")
+    plt.close()
+
     pade = (x-(np.dot(7,x**3)/60))/(1+(x**2/20))
     plt.plot(x,pade)
     plt.plot(x,y)
