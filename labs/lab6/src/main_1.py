@@ -6,15 +6,20 @@ def main():
     B=2
     t_cont = np.linspace(-3, 3, 5000)
     x_cont = np.sinc(B*t_cont)**2
-    Fss = [1,1.5,2,20]
+    Fss = [1,1.5,2,4]
 
     fig, axes = plt.subplots(4,1,figsize=(8, 20))
 
     i=0
     for Fs in Fss:
         Ts =1/Fs
-        tn = np.arange(-3,3,Ts)
-        x_stem = np.sinc(tn)**2
+        # tn = np.arange(-3,0,Ts)
+        aux=np.arange(0,3,Ts)
+        auxx=-aux[1:]
+        auxx=sorted(auxx)
+        tn=np.concatenate((auxx,aux))
+        # print(tn)
+        x_stem = np.sinc(B*tn)**2
         
         x_hat = np.zeros_like(t_cont) 
 
@@ -35,7 +40,6 @@ def main():
     plt.savefig("../plots/1.1.pdf")
     plt.show()
 
-# ?? nu mai functioneaza pentru B >1 dar presupun ca e greseala de implementare
 
 if __name__=="__main__":
     main()

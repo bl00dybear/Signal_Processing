@@ -9,12 +9,15 @@ def main():
     X = np.fft.fft(x)
     Y = np.fft.fft(y)
 
-    corr = np.fft.ifft(Y * np.conj(X)).real
+    corr = np.fft.ifft(np.conj(X)*Y).real
     d_rec = np.argmax(corr)
 
-    print("deplasare reala:", d)
-    print("deplasare recuperata:", d_rec)
-    print("vector corelatie:", corr)
+    print("Deplasare recuperata cu inmultire:", d_rec)
+
+    corr = np.fft.ifft(X/Y).real
+    d_rec = np.argmax(corr)
+
+    print("Deplasare recuperata cu impartire:", d_rec)
 
 
 if __name__=="__main__":
