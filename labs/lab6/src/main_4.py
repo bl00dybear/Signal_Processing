@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 def main():
     d=10
@@ -14,8 +15,14 @@ def main():
 
     print("Deplasare recuperata cu inmultire:", d_rec)
 
+    plt.plot(corr)
+    plt.show()
+
     corr = np.fft.ifft(X/Y).real
     d_rec = np.argmax(corr)
+
+    plt.plot(corr)
+    plt.show()
 
     print("Deplasare recuperata cu impartire:", d_rec)
 

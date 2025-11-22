@@ -1,34 +1,26 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def convo(h,x,n):
-    conv=[0]*n
-    for i in range(n):
-        for k in range(n):
-            conv[i]+=h[k]*x[i-k]
-
-    return conv
 
 def main():
+
     n=100
-    t=np.linspace(0,100,100)
-    x=np.random.randn(n)
-    fig, axes = plt.subplots(4,1,figsize=(8, 20))
-    axes[0].plot(t,x)
-    
-    x=np.convolve(x,x)
-    t=np.linspace(0,100,len(x))
-    axes[1].plot(t,x)
-    
-    x=np.convolve(x,x)
-    t=np.linspace(0,100,len(x))
-    axes[2].plot(t,x)
+    t=np.linspace(0,100,n)
+    sig=np.random.rand(n)
 
-    x=np.convolve(x,x)
-    t=np.linspace(0,100,len(x))
-    axes[3].plot(t,x)
+    fig, axs = plt.subplots(3, 1, figsize=(10, 10))
 
-    axes[0].set_title("Convolutii pe vector random")
+    for i in range (3):
+        sig=np.convolve(sig,sig)
+        t=np.linspace(0,100,len(sig))
+
+        axs[i].plot(t,sig)
+        axs[i].set_xlabel("Timp")
+        axs[i].set_ylabel("Amplitudine")
+        axs[i].grid()
+
+
+    axs[0].set_title("Convolutii pe vector random")
     plt.savefig("../plots/2.1.pdf")
     plt.show()
 
