@@ -1,37 +1,10 @@
-import time
-import rawpy
-import numpy as np
+from pathlib import Path
 
+from encodeing_pipeline.utils import load_raw_to_rgb, rgb_to_ycbcr, flatten, encode_with_codes, serialize_compressed
 from encodeing_pipeline.split import split_8x8
 from encodeing_pipeline.dct import dct_on_splits
 from encodeing_pipeline.quantization import quantize
-
-def load_raw_to_rgb(path):
-    with rawpy.imread(path) as raw:
-        rgb_image = raw.postprocess(
-            use_camera_wb=True,
-            no_auto_bright=True,
-            bright=1.0,
-            user_sat=None
-        )
-        return rgb_image
-    
-
-# Y = 0.299 * R + 0.587 * G + 0.114 * B
-# Cb = -0.1687 * R -0.3313 * G + 0.5 * B + 128
-# Cr = 0.5 * R -0.4187 * G -0.0813 * B + 128
-def rgb_to_ycbcr(image_rgb):
-    xform = np.array([
-        [ 0.299,    0.587,    0.114],
-        [-0.1687,  -0.3313,   0.5],
-        [ 0.5,     -0.4187,  -0.0813]
-    ])
-    
-    ycbcr = image_rgb.dot(xform.T)
-    
-    return ycbcr
-
-
+from encodeing_pipeline.huffman import huffman
 
 
 def process_encoding_pipeline(path, console):
@@ -56,6 +29,21 @@ def process_encoding_pipeline(path, console):
     console.print("[dim blue][*] JPEG QUANTIZATION ... [/dim blue]")
     Y_quant, Cb_quant, Cr_quant = quantize(Y_splits_dct,Cb_splits_dct,Cr_splits_dct)
     print(Y_quant.shape)
+
+    console.print("[dim blue][*] FLATTENING EACH CHANNEL ... [/dim blue]")
+    Y_stream ,Cb_stream ,Cr_stream = flatten(Y_quant, Cb_quant, Cr_quant)
+    print(Y_stream.shape)
+
+    codes = huffman(Y_stream ,Cb_stream ,Cr_stream)
+
+    bitstring_Y ,bitstring_Cb ,bitstring_Cr = encode_with_codes(Y_stream ,Cb_stream ,Cr_stream,codes)
+
+    output_path = Path(path).with_suffix('.npz')
     
-    print()
+    console.print("[dim blue][*] SERIALIZING TO NPZ ... [/dim blue]")
+    serialize_compressed(bitstring_Y, bitstring_Cb, bitstring_Cr, codes, rgb_image.shape, str(output_path))
+    
+    console.print(f"\n[bold white][+] BITSTREAM GENERATED. FILE SAVED.[/bold white]")
+    console.print(f"[bold green][✓] Compressed file: {output_path}[/bold green]\n")
+
     console.print("\n[bold white][+] BITSTREAM GENERATED. FILE SAVED.[/bold white]\n")
