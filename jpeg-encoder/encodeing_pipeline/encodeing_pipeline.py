@@ -44,6 +44,3 @@ def process_encoding_pipeline(path, console):
     serialize_compressed(bitstring_Y, bitstring_Cb, bitstring_Cr, codes, rgb_image.shape, str(output_path))
     
     console.print(f"\n[bold white][+] BITSTREAM GENERATED. FILE SAVED.[/bold white]")
-    console.print(f"[bold green][✓] Compressed file: {output_path}[/bold green]\n")
-
-    console.print("\n[bold white][+] BITSTREAM GENERATED. FILE SAVED.[/bold white]\n")

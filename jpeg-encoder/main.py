@@ -6,6 +6,8 @@ import questionary
 from questionary import Style as QStyle
 
 from encodeing_pipeline.encodeing_pipeline import process_encoding_pipeline 
+from decoding_pipeline.decoding_pipeline import process_decoding_pipeline
+
 
 console = Console()
 
@@ -38,7 +40,8 @@ def main():
         action = questionary.select(
             "SELECT_OPERATION >>",
             choices=[
-                "0x01 :: START_COMPRESSION",
+                "0x01 :: START_JPEG_ENCODING",
+                "0x02 :: START_JPEG_DECODING",
                 "0x00 :: EXIT"
             ],
             style=calm_style,
@@ -51,7 +54,7 @@ def main():
             console.print("\n[bold cyan][!] PROCESS TERMINATED.[/bold cyan]")
             sys.exit()
             
-        elif action == "0x01 :: START_COMPRESSION":
+        elif action == "0x01 :: START_JPEG_ENCODING":
             path = questionary.path(
                 "INPUT_RAW_FILE >>",
                 style=calm_style,
@@ -64,6 +67,21 @@ def main():
                     "PRESS_ANY_KEY_TO_RESET...",
                     style=calm_style
                 ).ask()
+
+        elif action == "0x02 :: START_JPEG_DECODING":
+            path = questionary.path(
+                "INPUT_RAW_FILE >>",
+                style=calm_style,
+                validate=lambda text: True if len(text) > 0 else "INVALID_PATH"
+            ).ask()
+            
+            if path:
+                process_decoding_pipeline(path,console)
+                questionary.press_any_key_to_continue(
+                    "PRESS_ANY_KEY_TO_RESET...",
+                    style=calm_style
+                ).ask()
+        
 
 if __name__ == "__main__":
     main()

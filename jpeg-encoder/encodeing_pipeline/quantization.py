@@ -20,8 +20,8 @@ def quantize(Y_dct, Cb_dct, Cr_dct):
     Cr_quant = np.zeros_like(Cr_dct)
     
     for i in range(num):
-        Y_quant[i] = Q_JPEG * np.round(Y_dct[i]/Q_JPEG) 
-        Cb_quant[i] = Q_JPEG * np.round(Cb_dct[i] / Q_JPEG)
-        Cr_quant[i] = Q_JPEG * np.round(Cr_dct[i] / Q_JPEG)
+        Y_quant[i] = np.round(Y_dct[i]/Q_JPEG) 
+        Cb_quant[i] = np.round(Cb_dct[i] / Q_JPEG)
+        Cr_quant[i] = np.round(Cr_dct[i] / Q_JPEG)
     
     return Y_quant, Cb_quant, Cr_quant

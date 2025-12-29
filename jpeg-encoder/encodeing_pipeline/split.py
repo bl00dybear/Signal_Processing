@@ -28,10 +28,14 @@ def pad_width(ycbcr_img,w_pad):
 def split_8x8(ycbcr_img):
     h,w,_=ycbcr_img.shape
 
-    if h % 8 != 0:
-        ycbcr_img = pad_height(ycbcr_img,h%8)
-    if w % 8 != 0:
-        ycbcr_img = pad_width(ycbcr_img,w%8)
+    h_pad = (8 - (h % 8)) % 8
+    w_pad = (8 - (w % 8)) % 8
+    if h_pad:
+        ycbcr_img = pad_height(ycbcr_img, h_pad)
+    if w_pad:
+        ycbcr_img = pad_width(ycbcr_img, w_pad)
+
+    h,w,_=ycbcr_img.shape
 
     Y_mat = ycbcr_img[:,:,0].astype(float)-128
     Cb_mat = ycbcr_img[:,:,1]
