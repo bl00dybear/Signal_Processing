@@ -95,7 +95,6 @@ def serialize_compressed(bitstring_Y, bitstring_Cb, bitstring_Cr, codes, rgb_ima
     Cr_bytes, Cr_bits = pack_bits_to_bytes(bitstring_Cr)
     
     def serialize_codes(codes_dict):
-        # Creează dicționar cu cheile și valorile ca array-uri
         symbols = np.array(list(codes_dict.keys()), dtype=np.int32)
         code_strs = list(codes_dict.values())
         return symbols, code_strs
