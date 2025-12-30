@@ -65,11 +65,12 @@ def main():
                 mse_trheshold = questionary.text(
                     "MSE THRESHOLD >>",
                     style=calm_style,
-                    validate=lambda text: True if text.isdigit() and 1 <= int(text) <= 100 else "INVALID_NUMBER (1-100)"
+                    validate=lambda text: True if text.isdigit() and 1 <= int(text) <= 255**2 else "INVALID_NUMBER (1-65025)"
                 ).ask()
                 
                 if mse_trheshold:
-                    process_encoding_pipeline(path, console)
+                    mse_trheshold = int(mse_trheshold)
+                    process_encoding_pipeline(path, console, mse_trheshold)
                     questionary.press_any_key_to_continue(
                         "PRESS_ANY_KEY_TO_RESET...",
                         style=calm_style

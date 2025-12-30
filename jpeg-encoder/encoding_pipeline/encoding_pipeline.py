@@ -3,11 +3,11 @@ from pathlib import Path
 from encoding_pipeline.utils import load_raw_to_rgb, rgb_to_ycbcr, flatten, encode_with_codes, serialize_compressed
 from encoding_pipeline.split import split_8x8
 from encoding_pipeline.dct import dct_on_splits
-from encoding_pipeline.quantization import quantize
+from encoding_pipeline.quantization import quantize, binary_search_quality
 from encoding_pipeline.huffman import huffman
 
 
-def process_encoding_pipeline(path, console):
+def process_encoding_pipeline(path, console, mse_threshold):
     console.print(f"\n[bold cyan][*] SOURCE LOADED:[/bold cyan] [white]{path}[/white]")
 
     console.print("[dim blue][*] LOADING RAW IMAGE TO RBG ... [/dim blue]")
@@ -26,8 +26,15 @@ def process_encoding_pipeline(path, console):
     Y_splits_dct,Cb_splits_dct,Cr_splits_dct = dct_on_splits(Y_splits,Cb_splits,Cr_splits)
     print(Y_splits_dct.shape)
 
+    console.print("[dim blue][*] COMPUTING QUALITY FACTOR ... [/dim blue]")
+    quality_factor = binary_search_quality(
+        Y_splits_dct,Cb_splits_dct,Cr_splits_dct,
+        mse_threshold,
+        console
+    )
+
     console.print("[dim blue][*] JPEG QUANTIZATION ... [/dim blue]")
-    Y_quant, Cb_quant, Cr_quant = quantize(Y_splits_dct,Cb_splits_dct,Cr_splits_dct)
+    Y_quant, Cb_quant, Cr_quant = quantize(Y_splits_dct,Cb_splits_dct,Cr_splits_dct, quality_factor)
     print(Y_quant.shape)
 
     console.print("[dim blue][*] FLATTENING EACH CHANNEL ... [/dim blue]")
@@ -41,6 +48,6 @@ def process_encoding_pipeline(path, console):
     output_path = Path(path).with_suffix('.npz')
     
     console.print("[dim blue][*] SERIALIZING TO NPZ ... [/dim blue]")
-    serialize_compressed(bitstring_Y, bitstring_Cb, bitstring_Cr, codes, rgb_image.shape, str(output_path))
+    serialize_compressed(bitstring_Y, bitstring_Cb, bitstring_Cr, codes, rgb_image.shape, str(output_path), quality_factor)
     
     console.print(f"\n[bold white][+] BITSTREAM GENERATED. FILE SAVED.[/bold white]")

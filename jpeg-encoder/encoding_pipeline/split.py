@@ -45,14 +45,17 @@ def split_8x8(ycbcr_img):
     Cb_splits = np.zeros((h//8*w//8,8,8))
     Cr_splits = np.zeros((h//8*w//8,8,8))
 
-    for i in range (h//8):
-        for j in range (w//8):
+    # for i in range (h//8):
+    #     for j in range (w//8):
 
-            for ii in range(8):
-                for jj in range(8):
-                    Y_splits[i*(w//8)+j,ii,jj] = Y_mat[i*8+ii,j*8+jj]
-                    Cb_splits[i*(w//8)+j,ii,jj] = Cb_mat[i*8+ii,j*8+jj]
-                    Cr_splits[i*(w//8)+j,ii,jj] = Cr_mat[i*8+ii,j*8+jj]
+    #         for ii in range(8):
+    #             for jj in range(8):
+    #                 Y_splits[i*(w//8)+j,ii,jj] = Y_mat[i*8+ii,j*8+jj]
+    #                 Cb_splits[i*(w//8)+j,ii,jj] = Cb_mat[i*8+ii,j*8+jj]
+    #                 Cr_splits[i*(w//8)+j,ii,jj] = Cr_mat[i*8+ii,j*8+jj]
 
+    Y_splits = Y_mat.reshape(h//8, 8, w//8, 8).transpose(0, 2, 1, 3).reshape(-1, 8, 8)
+    Cb_splits = Cb_mat.reshape(h//8, 8, w//8, 8).transpose(0, 2, 1, 3).reshape(-1, 8, 8)
+    Cr_splits = Cr_mat.reshape(h//8, 8, w//8, 8).transpose(0, 2, 1, 3).reshape(-1, 8, 8)
 
     return Y_splits,Cb_splits,Cr_splits

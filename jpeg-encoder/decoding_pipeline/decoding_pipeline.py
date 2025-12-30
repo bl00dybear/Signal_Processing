@@ -15,6 +15,8 @@ def process_decoding_pipeline(path, console):
     original_shape = tuple(npz_data['original_shape'])
     original_height, original_width = original_shape[0], original_shape[1]
     
+    quality_factor = float(npz_data['quality_factor'])
+
     console.print("[dim blue][*] HUFFMAN DECODING ... [/dim blue]")
     Y_stream, Cb_stream, Cr_stream = huffman_decode_all(npz_data)
     num_blocks = len(Y_stream) // 64
@@ -23,7 +25,7 @@ def process_decoding_pipeline(path, console):
     Y_blocks, Cb_blocks, Cr_blocks = unflatten(Y_stream, Cb_stream, Cr_stream, num_blocks)
     
     console.print("[dim blue][*] DEQUANTIZING ... [/dim blue]")
-    Y_dequant, Cb_dequant, Cr_dequant = dequantize(Y_blocks, Cb_blocks, Cr_blocks)
+    Y_dequant, Cb_dequant, Cr_dequant = dequantize(Y_blocks, Cb_blocks, Cr_blocks, quality_factor)
     
 
     console.print("[dim blue][*] INVERSE DCT ... [/dim blue]")

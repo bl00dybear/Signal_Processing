@@ -89,7 +89,7 @@ def pack_bits_to_bytes(bitstring):
     return bytes(byte_data), bit_count
 
 
-def serialize_compressed(bitstring_Y, bitstring_Cb, bitstring_Cr, codes, rgb_image_shape, output_path):
+def serialize_compressed(bitstring_Y, bitstring_Cb, bitstring_Cr, codes, rgb_image_shape, output_path, quality_factor):
     Y_bytes, Y_bits = pack_bits_to_bytes(bitstring_Y)
     Cb_bytes, Cb_bits = pack_bits_to_bytes(bitstring_Cb)
     Cr_bytes, Cr_bits = pack_bits_to_bytes(bitstring_Cr)
@@ -121,5 +121,6 @@ def serialize_compressed(bitstring_Y, bitstring_Cb, bitstring_Cr, codes, rgb_ima
         Cr_symbols=Cr_symbols,
         Cr_codes=np.array(Cr_code_strs, dtype=object),
 
-        original_shape=np.array(rgb_image_shape, dtype=np.int32)
+        original_shape=np.array(rgb_image_shape, dtype=np.int32),
+        quality_factor=np.float32(quality_factor)
     )
