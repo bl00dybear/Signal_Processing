@@ -5,7 +5,7 @@ import pyfiglet
 import questionary
 from questionary import Style as QStyle
 
-from encodeing_pipeline.encodeing_pipeline import process_encoding_pipeline 
+from encoding_pipeline.encoding_pipeline import process_encoding_pipeline 
 from decoding_pipeline.decoding_pipeline import process_decoding_pipeline
 
 
@@ -62,11 +62,18 @@ def main():
             ).ask()
             
             if path:
-                process_encoding_pipeline(path,console)
-                questionary.press_any_key_to_continue(
-                    "PRESS_ANY_KEY_TO_RESET...",
-                    style=calm_style
+                mse_trheshold = questionary.text(
+                    "MSE THRESHOLD >>",
+                    style=calm_style,
+                    validate=lambda text: True if text.isdigit() and 1 <= int(text) <= 100 else "INVALID_NUMBER (1-100)"
                 ).ask()
+                
+                if mse_trheshold:
+                    process_encoding_pipeline(path, console)
+                    questionary.press_any_key_to_continue(
+                        "PRESS_ANY_KEY_TO_RESET...",
+                        style=calm_style
+                    ).ask()
 
         elif action == "0x02 :: START_JPEG_DECODING":
             path = questionary.path(

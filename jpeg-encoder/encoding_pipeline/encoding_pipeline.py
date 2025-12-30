@@ -1,10 +1,10 @@
 from pathlib import Path
 
-from encodeing_pipeline.utils import load_raw_to_rgb, rgb_to_ycbcr, flatten, encode_with_codes, serialize_compressed
-from encodeing_pipeline.split import split_8x8
-from encodeing_pipeline.dct import dct_on_splits
-from encodeing_pipeline.quantization import quantize
-from encodeing_pipeline.huffman import huffman
+from encoding_pipeline.utils import load_raw_to_rgb, rgb_to_ycbcr, flatten, encode_with_codes, serialize_compressed
+from encoding_pipeline.split import split_8x8
+from encoding_pipeline.dct import dct_on_splits
+from encoding_pipeline.quantization import quantize
+from encoding_pipeline.huffman import huffman
 
 
 def process_encoding_pipeline(path, console):
