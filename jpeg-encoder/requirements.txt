@@ -1,0 +1,13 @@
+markdown-it-py==4.0.0
+mdurl==0.1.2
+numpy==2.2.6
+opencv-python==4.12.0.88
+pillow==12.1.0
+prompt_toolkit==3.0.52
+pyfiglet==1.0.4
+Pygments==2.19.2
+questionary==2.1.1
+rawpy==0.25.1
+rich==14.2.0
+scipy==1.16.3
+wcwidth==0.2.14
