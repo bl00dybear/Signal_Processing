@@ -7,6 +7,8 @@ from questionary import Style as QStyle
 
 from encoding_pipeline.encoding_pipeline import process_encoding_pipeline 
 from decoding_pipeline.decoding_pipeline import process_decoding_pipeline
+from video_pipeline.compress_video_pipeline import compress_video_pipeline
+from video_pipeline.decompress_video_pipeline import decompress_video_pipeline
 
 
 console = Console()
@@ -42,6 +44,8 @@ def main():
             choices=[
                 "0x01 :: START_JPEG_ENCODING",
                 "0x02 :: START_JPEG_DECODING",
+                "0x03 :: START_JPEG_VIDEO_ENCODING",
+                "0x04 :: START_JPEG_VIDEO_DECODING",
                 "0x00 :: EXIT"
             ],
             style=calm_style,
@@ -65,7 +69,7 @@ def main():
                 mse_trheshold = questionary.text(
                     "MSE THRESHOLD >>",
                     style=calm_style,
-                    validate=lambda text: True if text.isdigit() and 1 <= int(text) <= 255**2 else "INVALID_NUMBER (1-65025)"
+                    validate=lambda text: True if text.isdigit() and 0 <= int(text) <= 1e5 else "INVALID_NUMBER (0-1e5)"
                 ).ask()
                 
                 if mse_trheshold:
@@ -89,7 +93,40 @@ def main():
                     "PRESS_ANY_KEY_TO_RESET...",
                     style=calm_style
                 ).ask()
-        
+        elif action == "0x03 :: START_JPEG_VIDEO_ENCODING":
+            path = questionary.path(
+                "INPUT_RAW_FILE >>",
+                style=calm_style,
+                validate=lambda text: True if len(text) > 0 else "INVALID_PATH"
+            ).ask()
+            
+            if path:
+                mse_trheshold = questionary.text(
+                    "MSE THRESHOLD >>",
+                    style=calm_style,
+                    validate=lambda text: True if text.isdigit() and 0 <= int(text) <= 1e5 else "INVALID_NUMBER (0-1e5)"
+                ).ask()
+                
+                if mse_trheshold:
+                    mse_trheshold = int(mse_trheshold)
+                    compress_video_pipeline(path, console, mse_trheshold)
+                    questionary.press_any_key_to_continue(
+                        "PRESS_ANY_KEY_TO_RESET...",
+                        style=calm_style
+                    ).ask()
+        elif action == "0x04 :: START_JPEG_VIDEO_DECODING":
+            path = questionary.path(
+                "INPUT_RAW_FILE >>",
+                style=calm_style,
+                validate=lambda text: True if len(text) > 0 else "INVALID_PATH"
+            ).ask()
+            
+            if path:
+                decompress_video_pipeline(path, console)
+                questionary.press_any_key_to_continue(
+                    "PRESS_ANY_KEY_TO_RESET...",
+                    style=calm_style
+                ).ask()
 
 if __name__ == "__main__":
     main()
