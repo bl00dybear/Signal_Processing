@@ -60,3 +60,5 @@ Visual comparison between original RAW (ARW) on the left and reconstructed PNG a
 ![Alt text](images/comp.png)
 
 The algorithm achieves significant compression while maintaining perceptual quality within the specified MSE threshold. The reconstructed image is saved as PNG (lossless format) to preserve the exact output of the decompression pipeline, highlighting purely the compression artifacts introduced by the JPEG algorithm without additional encoding losses.
+
+**Note on video compression**: While the implementation successfully applies JPEG compression to each video frame with controlled quality degradation, the final reconstructed video file size is not reduced compared to the original due to the MP4 container overhead and lack of inter-frame compression optimization.
